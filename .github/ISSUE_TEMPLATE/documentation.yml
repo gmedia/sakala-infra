@@ -1,0 +1,56 @@
+name: Documentation
+description: Usulkan perubahan dokumentasi Sakala Infra.
+title: "docs: "
+labels:
+  - documentation
+body:
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Jenis dokumentasi
+      options:
+        - README
+        - ARCHITECTURE
+        - AGENTS
+        - CONTRIBUTING
+        - Local Runtime
+        - Networking
+        - Caddy / Routing
+        - Domains
+        - Security
+        - Operations
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah dokumentasi saat ini
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Perubahan yang diusulkan
+    validations:
+      required: true
+
+  - type: textarea
+    id: target_reader
+    attributes:
+      label: Target pembaca
+      placeholder: Contributor baru, agent developer, atau operator lokal.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: Dokumentasi menggunakan Bahasa Indonesia yang jelas.
+          required: true
+        - label: Command dan dampak operasi destruktif dijelaskan bila relevan.
+          required: true

@@ -1,0 +1,82 @@
+name: Bug Report
+description: Laporkan masalah pada runtime lokal atau kontrak infrastruktur Sakala.
+title: "fix: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Mohon sertakan langkah reproduksi dan hindari memasukkan secret atau data sensitif.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Ringkasan bug
+      placeholder: Contoh: Route demo.run.sakala.localhost tidak meneruskan request ke container demo.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area yang terdampak
+      options:
+        - Docker Compose
+        - Caddy / Routing
+        - Networking
+        - Example App
+        - Scripts / Makefile
+        - Templates
+        - Documentation
+        - Security
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Langkah reproduksi
+      placeholder: |
+        1. Jalankan make up
+        2. Akses http://demo.run.sakala.localhost:8080
+        3. Amati respons atau log
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Perilaku yang diharapkan
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Perilaku yang terjadi
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Contoh: Fedora 43, Docker 29.4, Compose 5.1
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs atau output command
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: Saya sudah mencari issue serupa sebelumnya.
+          required: true
+        - label: Saya tidak menyertakan secret, token, credential, atau data sensitif.
+          required: true

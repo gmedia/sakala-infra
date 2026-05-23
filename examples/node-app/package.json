@@ -1,0 +1,8 @@
+{
+  "name": "sakala-example-node-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  }
+}

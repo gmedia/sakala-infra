@@ -1,0 +1,4 @@
+# Replace APP_SLUG and APP_UPSTREAM when registering a local runtime app.
+APP_SLUG.run.sakala.localhost:80 {
+	reverse_proxy APP_UPSTREAM
+}

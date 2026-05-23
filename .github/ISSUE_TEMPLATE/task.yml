@@ -1,0 +1,68 @@
+name: Task
+description: Buat pekerjaan kecil untuk foundation runtime lokal Sakala.
+title: "task: "
+labels:
+  - task
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Tujuan
+      description: Jelaskan hasil akhir yang ingin dicapai.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Docker Compose
+        - Caddy / Routing
+        - Networking
+        - Example App
+        - Scripts / Makefile
+        - Templates
+        - Documentation
+        - Security
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Di luar scope
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan
+      placeholder: |
+        - make config
+        - bash -n scripts/*.sh
+        - make up && make doctor
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Batas scope
+      options:
+        - label: Task tidak memperkenalkan secret atau asumsi TLS production.
+          required: true
+        - label: Task tidak mengekspos Docker socket melalui service web-facing.
+          required: true

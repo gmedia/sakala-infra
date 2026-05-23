@@ -1,0 +1,12 @@
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	respond "Sakala Edge is running" 200
+}
+
+demo.run.sakala.localhost:80 {
+	reverse_proxy sakala-demo-static:8080
+}

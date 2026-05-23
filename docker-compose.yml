@@ -1,0 +1,35 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: sakala-caddy
+    restart: unless-stopped
+    ports:
+      - "${SAKALA_HTTP_PORT:-8080}:80"
+      - "${SAKALA_HTTPS_PORT:-8443}:443"
+    volumes:
+      - ./caddy/Caddyfile.local:/etc/caddy/Caddyfile:ro,Z
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - sakala-edge
+      - sakala-runtime
+
+  demo-static:
+    build:
+      context: ./examples/static-app
+    container_name: sakala-demo-static
+    restart: unless-stopped
+    networks:
+      - sakala-runtime
+
+volumes:
+  caddy-data:
+  caddy-config:
+
+networks:
+  sakala-edge:
+    name: sakala-edge
+    external: true
+  sakala-runtime:
+    name: sakala-runtime
+    external: true
