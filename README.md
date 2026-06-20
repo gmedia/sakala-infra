@@ -1,8 +1,10 @@
 # Sakala Infra
 
-**Sakala Infra** adalah local runtime playground dan kontrak infrastruktur awal untuk platform deployment **Sakala** dari **PT Media Sarana Data / GMEDIA**.
+**Sakala Infra** adalah local runtime playground dan kontrak infrastruktur awal untuk **Sakala**, project deployment open-source yang didukung **PT Media Sarana Data / GMEDIA** sebagai founding sponsor dan infrastructure supporter.
 
 Repository ini menyediakan lingkungan minimal untuk menguji routing aplikasi dan integrasi `sakala-agent` di tahap berikutnya. Repository ini belum merupakan infrastruktur production.
+
+GMEDIA menyediakan dukungan awal berupa domain, infrastruktur, ruang eksperimen, dan dukungan teknis. Dukungan ini tidak mengubah prinsip Sakala sebagai project open-source dengan roadmap, dokumentasi, issue, dan kontribusi yang dikembangkan secara terbuka.
 
 ## Scope Saat Ini
 

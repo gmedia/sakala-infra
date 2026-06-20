@@ -6,12 +6,15 @@ Dokumen ini berlaku untuk AI agents, Codex CLI, automation tools, dan contributo
 
 - Project: **Sakala Infra**
 - Product: **Sakala**
-- Organization: **PT Media Sarana Data / GMEDIA**
+- Project stewardship: **Sakala Maintainers**
+- Founding sponsor: **PT Media Sarana Data / GMEDIA**
 - License: **Apache License 2.0**
 - User-facing documentation: **Bahasa Indonesia**
 - File, service, variable, dan script identifiers: **English**
 
 Sakala Infra adalah local runtime playground dan infrastructure contract. Ia bukan production infrastructure dan bukan control plane.
+
+Do not frame Sakala as a closed GMEDIA-owned product. Use this framing instead: Sakala is an open-source project maintained by Sakala maintainers and supported by GMEDIA as founding sponsor.
 
 ## Boundaries
 

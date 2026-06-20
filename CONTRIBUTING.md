@@ -2,6 +2,8 @@
 
 Sakala Infra menyediakan lingkungan runtime lokal minimal untuk mengembangkan routing aplikasi dan integrasi agent Sakala. Kontribusi harus mempertahankan setup yang sederhana, dapat diulang, dan mudah dipahami contributor baru.
 
+Sakala adalah project open-source yang didukung GMEDIA sebagai founding sponsor dan infrastructure supporter. Hindari wording seperti "Sakala by GMEDIA" atau "produk GMEDIA"; gunakan framing bahwa GMEDIA mendukung fase awal tanpa mengubah prinsip open-source project.
+
 ## Prinsip Kontribusi
 
 1. Pertahankan scope lokal dan MVP-friendly.
