@@ -2,6 +2,8 @@
 
 Dokumen ini menjelaskan fondasi lokal awal `sakala-infra`. Repository ini merupakan playground runtime untuk mengembangkan kontrak antara dashboard, agent, Caddy, dan container aplikasi. Ia bukan rancangan deployment production final.
 
+Sakala adalah project deployment open-source yang didukung GMEDIA sebagai founding sponsor dan infrastructure supporter. Dukungan ini membantu fase MVP tanpa mengubah prinsip Sakala sebagai project dengan roadmap, dokumentasi, issue, dan kontribusi terbuka.
+
 ## Posisi dalam Ekosistem
 
 ```txt
