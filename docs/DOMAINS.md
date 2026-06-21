@@ -5,9 +5,10 @@ Domain adalah bagian dari kontrak UX deployment Sakala: setiap aplikasi mendapat
 ## Arah Domain Produk
 
 ```txt
-sakala.dev             Domain utama produk
-app.sakala.dev         Dashboard/control plane
-docs.sakala.dev        Dokumentasi produk
+sakala.dev             Website publik
+sakala.dev/docs        Dokumentasi produk
+app.sakala.dev         Sakala Console
+api.sakala.dev         Sakala API/control plane
 *.run.sakala.dev       Generated application domains
 ```
 
@@ -39,7 +40,7 @@ http://demo.run.sakala.localhost:8080
 
 Slug aplikasi di domain nantinya harus:
 
-- stabil untuk project/deployment yang sama sesuai policy dashboard;
+- stabil untuk project/deployment yang sama sesuai policy API;
 - aman digunakan sebagai label host;
 - tidak mengandung secret atau identifier internal sensitif;
 - dapat dicek terhadap collision sebelum route diaktifkan.

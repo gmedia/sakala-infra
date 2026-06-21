@@ -12,3 +12,7 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - Network contract `sakala-edge` dan `sakala-runtime`.
 - Static demo app dan contoh Node app untuk eksperimen runtime.
 - Script lifecycle, template route/environment, dan dokumentasi awal.
+
+### Changed
+
+- Dokumentasi ekosistem dan boundary diperbarui untuk arsitektur `sakala-console` dan `sakala-api` yang terpisah.

@@ -32,7 +32,7 @@ Ketika `sakala-agent` tersedia, agent diharapkan dapat:
 1. Menjalankan container aplikasi pada `sakala-runtime`.
 2. Menghasilkan atau memperbarui route berdasarkan domain deployment.
 3. Meminta reload konfigurasi dengan mekanisme yang aman.
-4. Melaporkan status route ke dashboard.
+4. Melaporkan status route ke API.
 
 Desain reload dan sumber konfigurasi dinamis belum diputuskan. Caddy tidak boleh diberi Docker socket hanya untuk melakukan discovery container.
 

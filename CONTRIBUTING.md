@@ -7,7 +7,7 @@ Sakala adalah project open-source yang didukung GMEDIA sebagai founding sponsor 
 ## Prinsip Kontribusi
 
 1. Pertahankan scope lokal dan MVP-friendly.
-2. Jaga batas: dashboard adalah control plane, agent menjalankan runtime, infra menyediakan kontrak lingkungan.
+2. Jaga batas: console adalah presentation layer, API adalah control plane, agent menjalankan runtime, dan infra menyediakan kontrak lingkungan.
 3. Hindari tooling atau orkestrasi production sebelum ada kebutuhan tervalidasi.
 4. Jangan commit secret atau mengekspose Docker socket ke service web-facing.
 5. Dokumentasikan perubahan terhadap network, domain, route, port, dan command.
