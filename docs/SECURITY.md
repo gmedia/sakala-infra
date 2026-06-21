@@ -4,7 +4,8 @@ Sakala Infra saat ini adalah lingkungan pengembangan lokal. Setup ini membantu p
 
 ## Batas Tanggung Jawab
 
-- Dashboard mengelola metadata, policy, authorization, dan command.
+- Console menjadi client browser tanpa hak akses runtime.
+- API mengelola metadata, policy, authorization, dan command.
 - Agent nantinya menjalankan operasi host/runtime.
 - Caddy menerima trafik aplikasi dan meneruskannya ke container runtime.
 - Aplikasi user tidak dipercaya secara otomatis.
@@ -13,7 +14,7 @@ Sakala Infra saat ini adalah lingkungan pengembangan lokal. Setup ini membantu p
 
 Tidak ada service web-facing yang boleh menerima mount Docker socket. Secara khusus, Caddy dan aplikasi demo tidak membutuhkan `/var/run/docker.sock`.
 
-Agent pada tahap berikutnya mungkin membutuhkan kemampuan runtime tertentu, tetapi akses tersebut harus dibatasi, didokumentasikan, dan tidak diekspos melalui endpoint aplikasi.
+Agent pada tahap berikutnya mungkin membutuhkan kemampuan runtime tertentu, tetapi akses tersebut harus dibatasi, didokumentasikan, dan tidak diwariskan ke console, API, Caddy, atau aplikasi user.
 
 ## Secrets
 

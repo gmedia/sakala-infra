@@ -34,7 +34,8 @@ Repository ini tidak boleh memperkenalkan tanpa keputusan arsitektur baru:
 - rahasia, token, credential, atau private key;
 - TLS production assumptions;
 - Docker socket pada service web-facing;
-- business logic yang merupakan tanggung jawab dashboard.
+- business logic control plane yang merupakan tanggung jawab `sakala-api`;
+- presentation logic yang merupakan tanggung jawab `sakala-console`.
 
 ## Runtime Rules
 

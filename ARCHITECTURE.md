@@ -1,18 +1,20 @@
 # Sakala Infra Architecture
 
-Dokumen ini menjelaskan fondasi lokal awal `sakala-infra`. Repository ini merupakan playground runtime untuk mengembangkan kontrak antara dashboard, agent, Caddy, dan container aplikasi. Ia bukan rancangan deployment production final.
+Dokumen ini menjelaskan fondasi lokal awal `sakala-infra`. Repository ini merupakan playground runtime untuk mengembangkan kontrak antara API, agent, Caddy, dan container aplikasi. Ia bukan rancangan deployment production final.
 
 Sakala adalah project deployment open-source yang didukung GMEDIA sebagai founding sponsor dan infrastructure supporter. Dukungan ini membantu fase MVP tanpa mengubah prinsip Sakala sebagai project dengan roadmap, dokumentasi, issue, dan kontribusi terbuka.
 
 ## Posisi dalam Ekosistem
 
 ```txt
-sakala-dashboard  Laravel control plane: user, project, deployment, command, UI
+sakala-landing    Astro website publik dan dokumentasi
+sakala-console    SvelteKit presentation layer di app.sakala.dev
+sakala-api        Laravel control plane di api.sakala.dev
 sakala-agent      Rust runtime agent: build, run, route, log, heartbeat
 sakala-infra      Local edge/runtime playground dan kontrak integrasi
 ```
 
-Dashboard tidak boleh menjalankan Docker atau mengakses Docker socket. Di masa depan, agent yang berjalan pada node runtime akan melakukan operasi tersebut dan melapor kembali ke dashboard.
+Console dan API tidak boleh menjalankan Docker atau mengakses Docker socket. Di masa depan, agent yang berjalan pada node runtime akan melakukan operasi tersebut dan melapor kembali ke API.
 
 ## Runtime Lokal Saat Ini
 
@@ -71,12 +73,13 @@ Tidak ada asumsi TLS production dalam foundation ini. Port HTTPS disediakan agar
 Alur yang dituju:
 
 ```txt
-Dashboard membuat command deployment
-Agent mengambil command
+Console mengirim intent pengguna ke API
+API membuat command deployment
+Agent mengambil command dari API
 Agent membangun/menjalankan container aplikasi
 Agent menghubungkan container ke sakala-runtime
 Agent menambahkan atau memperbarui route Caddy
-Agent melaporkan event/log/status ke dashboard
+Agent melaporkan event/log/status ke API
 ```
 
 Perubahan agent kelak harus menjaga isolasi container, penyimpanan secret, idempotensi command, dan tidak membuka Docker socket melalui Caddy atau aplikasi user.

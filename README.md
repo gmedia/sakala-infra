@@ -14,7 +14,7 @@ GMEDIA menyediakan dukungan awal berupa domain, infrastruktur, ruang eksperimen,
 - Contoh aplikasi Node untuk pengujian runtime mendatang.
 - Script dan Makefile untuk lifecycle lokal yang dapat diulang.
 
-Tidak termasuk Kubernetes, Terraform, orchestration production, monitoring stack, dashboard application, maupun Docker socket pada service web-facing.
+Tidak termasuk Kubernetes, Terraform, orchestration production, monitoring stack, aplikasi console/API, maupun Docker socket pada service web-facing.
 
 ## Requirements
 
