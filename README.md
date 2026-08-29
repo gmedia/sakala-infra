@@ -44,11 +44,13 @@ Perintah umum:
 ```bash
 make logs
 make config
+make test-runtime
 make down
 make reset
 ```
 
 `make reset` menghapus volume lokal Caddy. Jalankan hanya saat state lokal memang ingin dihapus.
+`make test-runtime` memvalidasi flow container aplikasi -> `sakala-runtime` -> generated route -> Caddy, lalu menguji penghapusan route dan memulihkan state awal.
 
 ## Strategi Domain
 

@@ -1,6 +1,6 @@
 COMPOSE := docker compose -f docker-compose.yml
 
-.PHONY: up down restart logs network doctor reset config
+.PHONY: up down restart logs network doctor reset config test-runtime
 
 up:
 	./scripts/up.sh
@@ -24,3 +24,6 @@ reset:
 
 config:
 	$(COMPOSE) config
+
+test-runtime:
+	./scripts/test-runtime-route.sh

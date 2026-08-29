@@ -8,6 +8,9 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ### Added
 
+- File-per-project route directory untuk integrasi dinamis dengan `sakala-agent`.
+- Placeholder Caddy site agar import glob valid sebelum deployment pertama.
+- Integration test generated route, runtime network, Caddy response, dan route cleanup.
 - Fondasi local runtime berbasis Docker Compose dan Caddy.
 - Network contract `sakala-edge` dan `sakala-runtime`.
 - Static demo app dan contoh Node app untuk eksperimen runtime.
@@ -15,4 +18,6 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ### Changed
 
+- Caddy Admin API dibatasi ke loopback container dan tidak dipublish ke host.
+- Caddy mengimpor read-only generated routes dari `caddy/sites` untuk validate/reload melalui agent.
 - Dokumentasi ekosistem dan boundary diperbarui untuk arsitektur `sakala-console` dan `sakala-api` yang terpisah.

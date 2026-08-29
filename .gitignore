@@ -3,6 +3,8 @@
 .env.*
 !.env.example
 *.log
+caddy/sites/*.Caddyfile
+!caddy/sites/00-placeholder.Caddyfile
 .idea/
 .vscode/
 .zed/
