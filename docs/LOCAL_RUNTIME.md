@@ -55,3 +55,24 @@ Container yang ingin diteruskan Caddy harus:
 - memiliki route lokal berbasis `*.run.sakala.localhost`.
 
 Gunakan `templates/caddy-app-route.Caddyfile` sebagai referensi format, bukan sebagai route otomatis yang sudah aktif.
+
+## Integrasi Agent
+
+Untuk pengujian executor Docker lokal, arahkan agent ke folder route host:
+
+```dotenv
+SAKALA_RUNTIME_DRIVER=docker
+SAKALA_RUNTIME_NETWORK=sakala-runtime
+SAKALA_CADDY_SITES_DIR=/absolute/path/to/sakala-infra/caddy/sites
+SAKALA_CADDY_CONTAINER=sakala-caddy
+```
+
+Agent menulis route secara atomik, menjalankan `caddy validate`, lalu `caddy reload` dari dalam container. Jangan membuka port `2019` dan jangan memasang Docker socket ke Caddy.
+
+## Integration Test Phase 8
+
+```bash
+make test-runtime
+```
+
+Test menyalakan stack bila diperlukan, membuat generated route menuju demo container, memverifikasi respons melalui Caddy, menghapus route, dan memastikan fallback edge kembali aktif. Script aman dijalankan ulang dan tidak mematikan stack yang sudah berjalan sebelum test.

@@ -1,5 +1,14 @@
 # Dynamic Site Routes
 
-Folder ini disediakan untuk konfigurasi route aplikasi yang nantinya dihasilkan atau dikelola oleh `sakala-agent`.
+Folder ini adalah contract route dinamis yang ditulis oleh `sakala-agent` pada host dan dibaca read-only oleh container Caddy.
 
-Pada foundation awal ini, route demo masih didefinisikan langsung di `../Caddyfile.local`. Jangan menaruh secret atau konfigurasi production TLS di folder ini.
+File route wajib memakai suffix `.Caddyfile`, hanya berisi hostname yang sudah divalidasi dan upstream container pada network `sakala-runtime`, serta tidak boleh memuat secret. Route demo tetap didefinisikan langsung di `../Caddyfile.local`.
+
+Setelah file diperbarui secara atomik, agent menjalankan validasi dan reload dari dalam container:
+
+```bash
+docker exec sakala-caddy caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+docker exec sakala-caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
+```
+
+Admin API Caddy hanya listen pada loopback container dan tidak dipublish ke host maupun jaringan web.

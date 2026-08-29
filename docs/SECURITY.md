@@ -14,7 +14,11 @@ Sakala Infra saat ini adalah lingkungan pengembangan lokal. Setup ini membantu p
 
 Tidak ada service web-facing yang boleh menerima mount Docker socket. Secara khusus, Caddy dan aplikasi demo tidak membutuhkan `/var/run/docker.sock`.
 
-Agent pada tahap berikutnya mungkin membutuhkan kemampuan runtime tertentu, tetapi akses tersebut harus dibatasi, didokumentasikan, dan tidak diwariskan ke console, API, Caddy, atau aplikasi user.
+Agent adalah satu-satunya proses yang boleh menjalankan operasi Docker pada runtime node. Akses tersebut harus dibatasi, didokumentasikan, dan tidak diwariskan ke console, API, Caddy, atau aplikasi user.
+
+## Caddy Reload
+
+Caddy Admin API hanya bind ke loopback di dalam container dan tidak dipublish ke host. Agent menulis file route pada host secara atomik, lalu menjalankan `caddy validate` dan `caddy reload` melalui `docker exec`. Mount `caddy/sites` pada Caddy bersifat read-only dan Caddy tidak menerima Docker socket.
 
 ## Secrets
 

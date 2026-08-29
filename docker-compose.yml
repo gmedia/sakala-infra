@@ -8,6 +8,7 @@ services:
       - "${SAKALA_HTTPS_PORT:-8443}:443"
     volumes:
       - ./caddy/Caddyfile.local:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy/sites:/etc/caddy/sites:ro,Z
       - caddy-data:/data
       - caddy-config:/config
     networks:
