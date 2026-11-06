@@ -32,4 +32,5 @@ Compose mendeklarasikan kedua network sebagai `external: true`. Karena itu `make
 
 - Hanya service yang memerlukan akses runtime yang boleh bergabung ke `sakala-runtime`.
 - Container aplikasi tidak perlu bergabung ke `sakala-edge`.
+- Agent harus memakai `SAKALA_RUNTIME_NETWORK=sakala-runtime`; lihat [AGENT_INTEGRATION.md](AGENT_INTEGRATION.md).
 - Network bukan boundary keamanan lengkap; hardening production, resource limits, dan isolasi workload belum dicakup repository ini.

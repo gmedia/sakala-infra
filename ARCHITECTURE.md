@@ -14,7 +14,7 @@ sakala-agent      Rust runtime agent: build, run, route, log, heartbeat
 sakala-infra      Local edge/runtime playground dan kontrak integrasi
 ```
 
-Console dan API tidak boleh menjalankan Docker atau mengakses Docker socket. Di masa depan, agent yang berjalan pada node runtime akan melakukan operasi tersebut dan melapor kembali ke API.
+Console dan API tidak boleh menjalankan Docker atau mengakses Docker socket. Agent yang berjalan pada node runtime melakukan operasi tersebut dan melapor kembali ke API.
 
 ## Runtime Lokal Saat Ini
 
@@ -51,12 +51,13 @@ Kedua network dideklarasikan sebagai network eksternal Compose dan dibuat idempo
 
 Caddy adalah reverse proxy lokal. Konfigurasi awal:
 
-- mematikan admin API;
+- membatasi Admin API pada loopback di dalam container, tanpa mempublish portnya;
 - mematikan automatic HTTPS untuk lingkungan lokal;
 - merespons health sederhana pada `:80`;
+- mengimport route dinamis dari `/etc/caddy/sites/*.Caddyfile`;
 - meneruskan `demo.run.sakala.localhost` ke demo static app.
 
-Konfigurasi route dinamis belum diterapkan. `templates/caddy-app-route.Caddyfile` mendefinisikan arah format route yang nanti dapat dihasilkan agent melalui mekanisme yang aman dan diaudit.
+`sakala-agent` menulis satu file route per project ke `caddy/sites`, lalu menjalankan `caddy validate` dan `caddy reload` melalui `docker exec`. `templates/caddy-app-route.Caddyfile` mendefinisikan format route tersebut. Kontrak lengkapnya ada di [docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md).
 
 ## Domain Strategy
 
@@ -68,9 +69,9 @@ demo.run.sakala.localhost    route demo lokal saat ini
 
 Tidak ada asumsi TLS production dalam foundation ini. Port HTTPS disediakan agar kontrak port stabil saat eksperimen HTTPS lokal dibutuhkan kemudian.
 
-## Integrasi Agent Mendatang
+## Integrasi Agent
 
-Alur yang dituju:
+Alur saat ini:
 
 ```txt
 Console mengirim intent pengguna ke API
@@ -78,11 +79,12 @@ API membuat command deployment
 Agent mengambil command dari API
 Agent membangun/menjalankan container aplikasi
 Agent menghubungkan container ke sakala-runtime
+Agent memeriksa aplikasi dari dalam container Caddy
 Agent menambahkan atau memperbarui route Caddy
 Agent melaporkan event/log/status ke API
 ```
 
-Perubahan agent kelak harus menjaga isolasi container, penyimpanan secret, idempotensi command, dan tidak membuka Docker socket melalui Caddy atau aplikasi user.
+Perubahan agent harus menjaga isolasi container, penyimpanan secret, idempotensi command, dan tidak membuka Docker socket melalui Caddy atau aplikasi user.
 
 ## Production Direction
 

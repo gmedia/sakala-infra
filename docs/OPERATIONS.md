@@ -1,6 +1,6 @@
 # Operations
 
-Panduan ini mencatat command rutin dan troubleshooting runtime lokal.
+Panduan ini mencatat command rutin dan troubleshooting runtime lokal. Kegagalan deployment dan integrasi agent dibahas di [AGENT_INTEGRATION.md](AGENT_INTEGRATION.md).
 
 ## Command Umum
 
@@ -10,6 +10,10 @@ make up        # membangun/menjalankan Caddy dan demo app
 make doctor    # memeriksa prerequisites dan status runtime aktif
 make logs      # mengikuti log service Compose
 make config    # merender dan memvalidasi konfigurasi Compose
+make test-runtime # menjalankan integration test routing yang terisolasi
+make railpack-sandbox # membangun image sandbox Railpack yang wajib untuk agent
+make full-stack-env # membuat .env untuk runtime, API, dan Console
+make full-stack-agent-env # mendaftarkan node dan membuat .env agent
 make down      # menghentikan stack tanpa menghapus volume Caddy
 make restart   # menghentikan lalu menjalankan kembali stack
 make reset     # menghapus volume Caddy lokal dan menyiapkan network kembali
