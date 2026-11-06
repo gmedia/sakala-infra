@@ -6,7 +6,7 @@ Sakala Infra saat ini adalah lingkungan pengembangan lokal. Setup ini membantu p
 
 - Console menjadi client browser tanpa hak akses runtime.
 - API mengelola metadata, policy, authorization, dan command.
-- Agent nantinya menjalankan operasi host/runtime.
+- Agent menjalankan operasi host/runtime.
 - Caddy menerima trafik aplikasi dan meneruskannya ke container runtime.
 - Aplikasi user tidak dipercaya secara otomatis.
 
@@ -18,7 +18,7 @@ Agent adalah satu-satunya proses yang boleh menjalankan operasi Docker pada runt
 
 ## Caddy Reload
 
-Caddy Admin API hanya bind ke loopback di dalam container dan tidak dipublish ke host. Agent menulis file route pada host secara atomik, lalu menjalankan `caddy validate` dan `caddy reload` melalui `docker exec`. Mount `caddy/sites` pada Caddy bersifat read-only dan Caddy tidak menerima Docker socket.
+Caddy Admin API hanya bind ke loopback di dalam container dan tidak dipublish ke host. Agent menulis file route pada host secara atomik, lalu menjalankan `caddy validate` dan `caddy reload` melalui `docker exec`. Mount `caddy/sites` pada Caddy bersifat read-only dan Caddy tidak menerima Docker socket. `make test-runtime` memeriksa batas ini pada container yang berjalan.
 
 ## Secrets
 

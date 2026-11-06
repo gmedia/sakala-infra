@@ -26,16 +26,17 @@ make up
 curl http://demo.run.sakala.localhost:8080
 ```
 
-## Arah Routing Dinamis
+## Routing Dinamis
 
-Ketika `sakala-agent` tersedia, agent diharapkan dapat:
+`sakala-agent` menangani routing dinamis dengan urutan berikut:
 
 1. Menjalankan container aplikasi pada `sakala-runtime`.
-2. Menghasilkan atau memperbarui route berdasarkan domain deployment.
-3. Meminta reload konfigurasi dengan mekanisme yang aman.
-4. Melaporkan status route ke API.
+2. Memeriksa aplikasi dengan `docker exec sakala-caddy wget`, sehingga image Caddy lokal wajib menyediakan BusyBox `wget` seperti `caddy:*-alpine`.
+3. Menulis route berdasarkan domain deployment.
+4. Menjalankan `caddy validate` dan `caddy reload`.
+5. Melaporkan status ke API.
 
-Route dinamis menggunakan file-per-project yang ditulis atomik oleh agent pada host. Caddy tidak diberi Docker socket; akses Docker tetap hanya dimiliki proses agent pada runtime node.
+Route dinamis menggunakan file-per-project yang ditulis atomik oleh agent pada host. Caddy tidak diberi Docker socket; akses Docker tetap hanya dimiliki proses agent pada runtime node. Kontrak lengkapnya ada di [AGENT_INTEGRATION.md](AGENT_INTEGRATION.md), dan `make test-runtime` membuktikan jalur ini tanpa agent.
 
 ## Template Route
 
