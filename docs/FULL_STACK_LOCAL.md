@@ -137,7 +137,7 @@ pnpm install
 pnpm dev
 ```
 
-Console terbuka di `http://app.sakala.localhost:5173`. Gunakan alamat itu, bukan `localhost:5173`, karena cookie session terikat pada `.sakala.localhost`.
+Console terbuka di `http://app.sakala.localhost:5173`. Gunakan alamat itu, bukan `localhost:5173`, karena Console membaca `XSRF-TOKEN` yang terikat pada `.sakala.localhost`. Cookie session sendiri host-only di `api.sakala.localhost`, jadi tidak sampai ke aplikasi di `*.run.sakala.localhost`. File `.env` API dari sebelum perubahan ini perlu dijalankan ulang lewat `scripts/full-stack-env.sh`, lalu login lagi.
 
 ## 9. Deploy Aplikasi Pertama
 

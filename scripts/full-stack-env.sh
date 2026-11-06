@@ -106,6 +106,12 @@ write_api_env() {
 
     set_env "${file}" SAKALA_AVATAR_STORAGE local
 
+    # Host-only session on the API host, so it never reaches apps under run.sakala.localhost.
+    # Local runs over HTTP, so it has no __Host- prefix. Only XSRF-TOKEN gets the parent domain.
+    set_env "${file}" SESSION_COOKIE sakala-api-session
+    set_env "${file}" SESSION_DOMAIN ''
+    set_env "${file}" SAKALA_XSRF_COOKIE_DOMAIN .sakala.localhost
+
     set_env "${file}" BROADCAST_CONNECTION reverb
     set_env "${file}" REVERB_ALLOWED_ORIGINS app.sakala.localhost,localhost
     set_env "${file}" REVERB_HOST 127.0.0.1

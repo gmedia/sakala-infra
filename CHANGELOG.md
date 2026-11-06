@@ -25,6 +25,7 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - Caddy mengimpor read-only generated routes dari `caddy/sites` untuk validate/reload melalui agent.
 - Dokumentasi ekosistem dan boundary diperbarui untuk arsitektur `sakala-console` dan `sakala-api` yang terpisah.
 - `make test-runtime` tidak lagi memakai stack `make up`, port `.env`, atau folder `caddy/sites`, sehingga aman dijalankan bersama container lain.
+- `scripts/full-stack-env.sh` membuat cookie session host-only di `api.sakala.localhost` dan memberi parent domain hanya pada `XSRF-TOKEN`, sehingga session tidak terkirim ke aplikasi di `*.run.sakala.localhost`.
 - `scripts/create-network.sh` menerima nama network sebagai argumen; tanpa argumen tetap menyiapkan `sakala-edge` dan `sakala-runtime`.
 
 ### Fixed
