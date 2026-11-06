@@ -11,4 +11,4 @@ docker exec sakala-caddy caddy validate --config /etc/caddy/Caddyfile --adapter 
 docker exec sakala-caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
 ```
 
-Admin API Caddy hanya listen pada loopback container dan tidak dipublish ke host maupun jaringan web.
+Admin API Caddy hanya listen pada loopback container dan tidak dipublish ke host maupun jaringan web. Format lengkap dan troubleshooting ada di [AGENT_INTEGRATION.md](../../docs/AGENT_INTEGRATION.md).

@@ -1,0 +1,15 @@
+# Override used only by scripts/test-runtime-route.sh, not by the daily runtime.
+# Each run has its own container, networks, and route folder, so it cannot touch
+# a `make up` stack or other containers on the same machine.
+services:
+  caddy:
+    container_name: ${SAKALA_TEST_CADDY_CONTAINER:?set by scripts/test-runtime-route.sh}
+    restart: "no"
+    volumes:
+      - ${SAKALA_TEST_SITES_DIR:?set by scripts/test-runtime-route.sh}:/etc/caddy/sites:ro,Z
+
+networks:
+  sakala-edge:
+    name: ${SAKALA_TEST_EDGE_NETWORK:?set by scripts/test-runtime-route.sh}
+  sakala-runtime:
+    name: ${SAKALA_TEST_RUNTIME_NETWORK:?set by scripts/test-runtime-route.sh}

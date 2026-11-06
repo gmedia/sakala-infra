@@ -32,4 +32,12 @@ if [ "${container_status}" != 'running' ]; then
 fi
 printf 'running\n'
 
+printf 'Checking wget in sakala-caddy... '
+if ! docker exec sakala-caddy wget --help >/dev/null 2>&1; then
+    printf 'missing\n' >&2
+    printf 'sakala-agent runs its readiness probe with wget inside this container. Use a caddy:*-alpine image.\n' >&2
+    exit 1
+fi
+printf 'ok\n'
+
 docker compose --project-directory "${PROJECT_DIR}" -f "${PROJECT_DIR}/docker-compose.yml" ps
