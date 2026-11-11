@@ -1,0 +1,20 @@
+# Dependabot keeps dependencies current. Security updates are separate (enabled
+# in repository settings) and skip the cooldown; version updates below wait 7
+# days after a release so a hijacked package is usually caught before it lands.
+version: 2
+updates:
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Jakarta"
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      docker-compose-minor-patch:
+        update-types: ["minor", "patch"]
