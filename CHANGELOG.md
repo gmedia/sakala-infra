@@ -21,6 +21,8 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ### Changed
 
+- Nama container Caddy dan demo, network edge dan runtime, serta tag image sandbox Railpack bisa diganti lewat `.env` dengan default yang sama, supaya stack lokal bisa berjalan di samping stack lain tanpa override Compose.
+- `docs/FULL_STACK_LOCAL.md` menjelaskan cara membuat admin dengan `php artisan user:admin`, lama build pertama yang jujur, dan cara menguji backup lewat `make backup-test` di `sakala-deployment`.
 - Caddy Admin API dibatasi ke loopback container dan tidak dipublish ke host.
 - Caddy mengimpor read-only generated routes dari `caddy/sites` untuk validate/reload melalui agent.
 - Dokumentasi ekosistem dan boundary diperbarui untuk arsitektur `sakala-console` dan `sakala-api` yang terpisah.

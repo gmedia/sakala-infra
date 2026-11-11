@@ -22,7 +22,7 @@ Browser -> runtime Caddy :8080 -> container aplikasi di sakala-runtime
 | Rust (`rust-toolchain.toml` di `sakala-agent` memilih versinya) | Agent |
 | Mesin x86_64, karena image sandbox Railpack hanya tersedia untuk arsitektur ini | Preflight agent |
 
-Port host yang dipakai adalah `5173`, `8000`, `8080`, `8081`, `8443`, `15432`, dan `16379`. Kalau `8080` terpakai, lihat [Ubah port edge](#ubah-port-edge).
+Port host yang dipakai adalah `5173`, `8000`, `8080`, `8081`, `8443`, `15432`, dan `16379`. Kalau `8080` terpakai, lihat [Ubah port edge](#ubah-port-edge). Kalau mesinmu sudah menjalankan stack Sakala lain, lihat juga [Berjalan di samping stack lain](#berjalan-di-samping-stack-lain).
 
 Browser Chromium dan Firefox serta `curl` me-resolve `*.localhost` ke loopback tanpa konfigurasi. Browser lain mungkin butuh entri `/etc/hosts` untuk setiap domain.
 
@@ -67,7 +67,7 @@ make up
 make doctor
 ```
 
-Ini menjalankan `sakala-caddy` dan network `sakala-runtime`. `curl http://localhost:8080` harus menjawab `Sakala Edge is running`.
+Ini menjalankan `sakala-caddy` dan network `sakala-runtime`, atau nama yang kamu pilih di [Berjalan di samping stack lain](#berjalan-di-samping-stack-lain). `curl http://localhost:8080` harus menjawab `Sakala Edge is running`.
 
 ## 5. Siapkan API
 
@@ -148,14 +148,37 @@ Console terbuka di `http://app.sakala.localhost:5173`. Gunakan alamat itu, bukan
    grep -ao 'http[^ "<>]*auth/email/verify[^ "<>]*' storage/logs/laravel.log | tail -1 | sed -e 's/&amp;/\&/g' -e 's/=3D/=/g'
    ```
 
-   Buka tautan itu, lalu login.
+   Buka tautan itu, lalu login. Kalau kamu juga butuh akses admin, lihat [Akun admin](#akun-admin), yang bisa sekaligus membuat akun terverifikasi tanpa langkah ini.
 3. Selesaikan onboarding, lalu buka `http://app.sakala.localhost:5173/projects/new`.
 4. Pilih **Public Git URL**, isi `https://github.com/gmedia/sakala-infra`, lalu **Lanjut**.
 5. Isi nama proyek, dan isi **Root directory** dengan `examples/node-app`. Folder itu berisi Dockerfile sederhana yang listen di `0.0.0.0:$PORT`. Klik **Buat Proyek**.
 6. Klik **Deploy sekarang**. Log build mengalir langsung di halaman deployment, dan status berakhir sukses.
 7. Buka URL proyek di halaman proyek, misalnya `http://namaproyek.run.sakala.localhost:8080/`. Hasilnya JSON dari `sakala-example-node-app`.
 
-Build pertama perlu menarik `node:22-alpine`, jadi lamanya bergantung pada koneksi. Setelah image itu ada, deployment ini selesai dalam sekitar 10 detik.
+### Berapa lama build-nya
+
+Build pertama mengunduh image dasar, jadi lamanya bergantung pada koneksimu dan bisa beberapa menit. Contoh di atas menarik `node:22-alpine`. Proyek yang dibangun Railpack juga mengunduh image frontend, builder, dan runtime Railpack.
+
+Kalau kamu memakai builder network host dari [Bila build sangat lambat](#bila-build-sangat-lambat), builder itu punya cache sendiri yang terpisah dari image di `docker images`. Build pertama lewat builder itu mengunduh ulang image dasar, walaupun image yang sama sudah ada di mesinmu, dan bisa terlihat diam beberapa saat di langkah `load metadata` atau `resolve`. Itu unduhan, bukan macet. Log deployment menampilkan langkah yang sedang berjalan.
+
+Setelah image dasar ada di cache, deploy ulang commit yang sama hanya membangun lapisan yang berubah. Pada contoh di atas itu tinggal hitungan detik, sekitar 10 detik di mesin penulis panduan ini, tetapi angkanya berbeda per mesin dan per proyek.
+
+## Akun Admin
+
+Endpoint admin di API, misalnya daftar node di `/api/agent/v1/agents` dan suspend proyek di `/api/v1/admin/projects/{id}/suspend`, hanya menerima akun dengan role `admin`. Console belum punya halaman admin, jadi endpoint itu dipanggil lewat API dengan session akun tersebut. Registrasi selalu membuat akun biasa. Jadikan akunmu admin dari `sakala-api`:
+
+```bash
+cd ../sakala-api
+php artisan user:admin email-kamu@contoh.test
+```
+
+Atau buat akun admin baru yang langsung terverifikasi, sehingga tidak perlu mengambil tautan verifikasi dari log. Kata sandinya ditanyakan tanpa ditampilkan:
+
+```bash
+php artisan user:admin admin@sakala.localhost --create --name="Admin Lokal"
+```
+
+Tanpa `--create`, email yang belum terdaftar ditolak, dan akun yang sudah ada hanya diubah role-nya tanpa menyentuh kata sandinya. Role baru berlaku mulai request berikutnya, tanpa login ulang. Opsi lengkapnya ada di `docs/DEVELOPMENT.md` pada `sakala-api`.
 
 ## Nilai yang Diubah Script
 
@@ -204,6 +227,33 @@ export BUILDX_BUILDER=sakala-local-builder
 
 Jalankan `export` di terminal agent sebelum `cargo run`, karena process `docker` milik agent mewarisinya. Log build lalu menampilkan `building with "sakala-local-builder"`. Builder ini hanya berlaku untuk build. Langkah build punya akses ke network host, jadi pakai hanya untuk repository yang kamu percaya. Hapus dengan `docker buildx rm sakala-local-builder`. Jangan menurunkan `mtu` Docker sebagai perbaikan tanpa mengukurnya.
 
+## Berjalan di Samping Stack Lain
+
+Secara default runtime memakai nama tetap: container `sakala-caddy` dan `sakala-demo-static`, network `sakala-edge` dan `sakala-runtime`, serta tag image `sakala-railpack-sandbox`. Kalau mesinmu sudah menjalankan stack Sakala lain dengan nama itu, `make up` gagal karena namanya bentrok. Isi nama lain di `sakala-infra/.env`, tanpa override Compose:
+
+| Variabel | Default | Dipakai oleh |
+| --- | --- | --- |
+| `SAKALA_CADDY_CONTAINER` | `sakala-caddy` | Compose, `make doctor`, dan `sakala-agent/.env` |
+| `SAKALA_DEMO_CONTAINER` | `sakala-demo-static` | Compose. Caddy menjangkaunya lewat nama service `demo-static`, jadi route demo tetap jalan |
+| `SAKALA_EDGE_NETWORK` | `sakala-edge` | Compose, `make network`, `make doctor` |
+| `SAKALA_RUNTIME_NETWORK` | `sakala-runtime` | Compose, `make network`, `make doctor`, dan `sakala-agent/.env` |
+| `SAKALA_RAILPACK_SANDBOX_TAG` | `sakala-railpack-sandbox` | `make railpack-sandbox` dan `make full-stack-agent-env` |
+| `COMPOSE_PROJECT_NAME` | nama folder, biasanya `sakala-infra` | Compose, untuk nama volume Caddy. Ubah kalau stack lain juga di-clone ke folder bernama `sakala-infra` |
+
+Contoh:
+
+```dotenv
+SAKALA_CADDY_CONTAINER=sakala2-caddy
+SAKALA_DEMO_CONTAINER=sakala2-demo-static
+SAKALA_EDGE_NETWORK=sakala2-edge
+SAKALA_RUNTIME_NETWORK=sakala2-runtime
+COMPOSE_PROJECT_NAME=sakala2-infra
+SAKALA_HTTP_PORT=18080
+SAKALA_HTTPS_PORT=18443
+```
+
+Script membaca nilai dari environment shell lebih dulu, lalu dari `.env`, lalu default, sama seperti Compose. Agent tidak membaca `.env` ini, jadi jalankan `make full-stack-agent-env` setelah mengubah nama supaya `SAKALA_CADDY_CONTAINER` dan `SAKALA_RUNTIME_NETWORK` di `sakala-agent/.env` ikut berubah, lalu start ulang agent. Port API, Reverb, PostgreSQL, dan Valkey juga perlu berbeda dari stack lain; lihat [Ubah port edge](#ubah-port-edge). `make test-runtime` tidak terpengaruh, karena selalu memakai nama sekali pakai sendiri.
+
 ## Ubah Port Edge
 
 Ubah `SAKALA_HTTP_PORT` di `sakala-infra/.env`, lalu jalankan `make full-stack-env`, restart proses API, dan jalankan `make up`. Script menyamakan `SAKALA_PROJECT_URL_PORT` dengan nilai itu. Untuk Reverb, PostgreSQL, atau Valkey, lihat variabel di awal `scripts/full-stack-env.sh`.
@@ -224,6 +274,19 @@ Ubah `SAKALA_HTTP_PORT` di `sakala-infra/.env`, lalu jalankan `make full-stack-e
 | Console gagal membaca repository publik | Kuota GitHub anonim habis | `curl -sS https://api.github.com/rate_limit` | Isi `GITHUB_PUBLIC_API_TOKEN` |
 
 Kegagalan aplikasi seperti `runtime_app_not_listening` dijelaskan di [AGENT_INTEGRATION.md](AGENT_INTEGRATION.md#saat-deploy-gagal).
+
+## Menguji Backup Secara Lokal
+
+Backup dan restore production ada di repository `sakala-deployment`, bukan di sini. Script-nya bisa diuji di mesinmu tanpa server:
+
+```bash
+cd ../sakala-deployment
+make backup-test
+```
+
+`make backup-test` menjalankan `scripts/test-backup.sh` terhadap container sementara bernama `sakala-backup-test-*`: PostgreSQL, RustFS, dan penerima SSH sungguhan. Script ini membuat backup, memulihkannya ke database baru, dan memeriksa bahwa kunci yang salah serta dump yang terpotong ditolak. Semua resource-nya dihapus di akhir, dan stack Full Stack Lokal ini tidak disentuh.
+
+Yang dibutuhkan: Docker, [`age`](https://github.com/FiloSottile/age), `curl`, `rsync`, dan `ssh`. Run pertama mengunduh `postgres:17-alpine`, `rustfs/rustfs`, dan `ubuntu:26.04`. Kalau image API yang disebut `SAKALA_TEST_API_IMAGE` ada di mesinmu, script juga menjalankan migrasi sungguhan dan membuktikan `APP_KEY` bisa membaca nilai yang dipulihkan. Tanpa image itu, bagian tersebut dilewati dan ditandai `skip` di output, jadi bacalah output-nya, jangan hanya exit code. Clone `sakala-deployment` di sebelah repository lain kalau belum ada.
 
 ## Berhenti dan Membersihkan
 
