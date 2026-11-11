@@ -1,7 +1,7 @@
 services:
   caddy:
     image: caddy:2-alpine
-    container_name: sakala-caddy
+    container_name: ${SAKALA_CADDY_CONTAINER:-sakala-caddy}
     restart: unless-stopped
     ports:
       - "${SAKALA_HTTP_PORT:-8080}:80"
@@ -18,7 +18,7 @@ services:
   demo-static:
     build:
       context: ./examples/static-app
-    container_name: sakala-demo-static
+    container_name: ${SAKALA_DEMO_CONTAINER:-sakala-demo-static}
     restart: unless-stopped
     networks:
       - sakala-runtime
@@ -29,8 +29,8 @@ volumes:
 
 networks:
   sakala-edge:
-    name: sakala-edge
+    name: ${SAKALA_EDGE_NETWORK:-sakala-edge}
     external: true
   sakala-runtime:
-    name: sakala-runtime
+    name: ${SAKALA_RUNTIME_NETWORK:-sakala-runtime}
     external: true

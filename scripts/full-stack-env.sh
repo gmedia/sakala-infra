@@ -15,9 +15,11 @@
 #   SAKALA_LOCAL_VALKEY_PORT host port for Valkey (default: 16379)
 #   SAKALA_LOCAL_REVERB_PORT host port for Reverb (default: 8081)
 #   SAKALA_HTTP_PORT        edge port of the runtime Caddy (default: value in .env, then 8080)
-#   SAKALA_CADDY_CONTAINER, SAKALA_RUNTIME_NETWORK, SAKALA_CADDY_SITES_DIR,
-#   SAKALA_RUNTIME_WORKSPACE, SAKALA_NODE_NAME   agent settings, with local defaults
+#   SAKALA_CADDY_CONTAINER, SAKALA_RUNTIME_NETWORK   names the agent must share with
+#                           the runtime; read from the shell, then .env (see scripts/local-names.sh)
+#   SAKALA_CADDY_SITES_DIR, SAKALA_RUNTIME_WORKSPACE, SAKALA_NODE_NAME   agent settings, with local defaults
 #   SAKALA_RAILPACK_IMAGE   sandbox image pinned by sha256 (default: built from sakala-agent)
+#   SAKALA_RAILPACK_SANDBOX_TAG   tag for that build (default: sakala-railpack-sandbox)
 set -euo pipefail
 
 readonly SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,6 +28,8 @@ readonly APPS_DIR="${SAKALA_APPS_DIR:-$(CDPATH= cd -- "${PROJECT_DIR}/.." && pwd
 readonly API_DIR="${APPS_DIR}/sakala-api"
 readonly CONSOLE_DIR="${APPS_DIR}/sakala-console"
 readonly AGENT_DIR="${APPS_DIR}/sakala-agent"
+# shellcheck source=scripts/local-names.sh
+. "${SCRIPT_DIR}/local-names.sh"
 
 readonly DB_PORT="${SAKALA_LOCAL_DB_PORT:-15432}"
 readonly VALKEY_PORT="${SAKALA_LOCAL_VALKEY_PORT:-16379}"
@@ -140,7 +144,7 @@ write_console_env() {
 # to start without it. Build output goes to stderr, so stdout is only the image ID.
 build_railpack_sandbox() {
     local recipe="${AGENT_DIR}/docker/railpack-sandbox"
-    local image="sakala-railpack-sandbox"
+    local image="${SAKALA_RAILPACK_SANDBOX_TAG}"
 
     [[ -f "${recipe}/Dockerfile" ]] || fail "${recipe} not found. Clone sakala-agent next to sakala-infra or set SAKALA_APPS_DIR."
     # Without --provenance=false, every build on the containerd image store gets a new ID and
@@ -183,8 +187,8 @@ write_agent_env() {
     set_env "${file}" SAKALA_API_URL http://127.0.0.1:8000
     set_env "${file}" SAKALA_RUNTIME_DRIVER docker
     set_env "${file}" SAKALA_RAILPACK_IMAGE "${railpack_image}"
-    set_env "${file}" SAKALA_RUNTIME_NETWORK "${SAKALA_RUNTIME_NETWORK:-sakala-runtime}"
-    set_env "${file}" SAKALA_CADDY_CONTAINER "${SAKALA_CADDY_CONTAINER:-sakala-caddy}"
+    set_env "${file}" SAKALA_RUNTIME_NETWORK "${SAKALA_RUNTIME_NETWORK}"
+    set_env "${file}" SAKALA_CADDY_CONTAINER "${SAKALA_CADDY_CONTAINER}"
     set_env "${file}" SAKALA_CADDY_SITES_DIR "${sites_dir}"
     set_env "${file}" SAKALA_RUNTIME_WORKSPACE "${workspace}"
 }

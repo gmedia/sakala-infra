@@ -18,7 +18,7 @@ make doctor
 
 `make up` melakukan dua langkah:
 
-1. Membuat network `sakala-edge` dan `sakala-runtime` bila belum ada.
+1. Membuat network `sakala-edge` dan `sakala-runtime` bila belum ada. Namanya bisa diganti lewat `SAKALA_EDGE_NETWORK` dan `SAKALA_RUNTIME_NETWORK` di `.env`; lihat [FULL_STACK_LOCAL.md](FULL_STACK_LOCAL.md#berjalan-di-samping-stack-lain).
 2. Menjalankan Caddy dan `demo-static` melalui Docker Compose.
 
 ## Memeriksa Routing

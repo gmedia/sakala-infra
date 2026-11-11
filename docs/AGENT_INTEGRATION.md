@@ -30,7 +30,7 @@ Agent tidak membaca file `.env` milik repository ini, dan binary-nya memang tida
 | Runtime driver | Tidak diatur di sini | `SAKALA_RUNTIME_DRIVER` | Default `noop` tidak menyentuh Docker, jadi isi `docker` untuk memakai runtime ini |
 | Image Caddy | `caddy:2-alpine`, menyertakan BusyBox `wget` | Probe readiness memakai `wget` | Wajib tersedia; `make doctor` memeriksanya |
 
-Nama container, network, dan folder route pada runtime lokal sengaja tetap. Kalau salah satu diubah di `docker-compose.yml`, nilai agent harus ikut diubah.
+Nama container Caddy dan network bisa diganti lewat `SAKALA_CADDY_CONTAINER` dan `SAKALA_RUNTIME_NETWORK` di `.env` repository ini, misalnya supaya bisa berjalan di samping stack lain ([FULL_STACK_LOCAL.md](FULL_STACK_LOCAL.md#berjalan-di-samping-stack-lain)). Nilai agent harus ikut diubah ke nama yang sama; `make full-stack-agent-env` melakukannya. Contoh di dokumen ini memakai nama default.
 
 ## Menyiapkan dari Awal
 

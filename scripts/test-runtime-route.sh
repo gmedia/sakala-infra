@@ -144,11 +144,18 @@ check_prerequisites() {
     fi
 }
 
+# Renders docker-compose.yml without .env and without the name variables a
+# developer may have exported, plus any assignments given as arguments.
+render_default_config() {
+    env -u SAKALA_CADDY_CONTAINER -u SAKALA_DEMO_CONTAINER -u SAKALA_EDGE_NETWORK -u SAKALA_RUNTIME_NETWORK "$@" \
+        docker compose --env-file /dev/null --project-directory "${PROJECT_DIR}" -f "${COMPOSE_FILE}" config
+}
+
 # The test swaps names to stay isolated, so the names the agent relies on are
 # checked here on the configuration `make up` renders, without any override.
 check_default_contract() {
     local rendered
-    rendered="$(docker compose --env-file /dev/null --project-directory "${PROJECT_DIR}" -f "${COMPOSE_FILE}" config)"
+    rendered="$(render_default_config)"
 
     local expected
     for expected in 'container_name: sakala-caddy' 'name: sakala-edge' 'name: sakala-runtime' 'target: /etc/caddy/sites'; do
@@ -162,6 +169,13 @@ check_default_contract() {
     if grep -qE -- 'target: 2019|published: "?2019"?' <<<"${rendered}"; then
         fail "default Compose config publishes the Caddy Admin API port"
     fi
+
+    # The names stay configurable, so a second stack can run beside this one.
+    rendered="$(render_default_config SAKALA_CADDY_CONTAINER=other-caddy SAKALA_DEMO_CONTAINER=other-demo \
+        SAKALA_EDGE_NETWORK=other-edge SAKALA_RUNTIME_NETWORK=other-runtime)"
+    for expected in 'container_name: other-caddy' 'container_name: other-demo' 'name: other-edge' 'name: other-runtime'; do
+        grep -qF -- "${expected}" <<<"${rendered}" || fail "Compose config ignores a configured name: ${expected}"
+    done
 }
 
 check_networks() {

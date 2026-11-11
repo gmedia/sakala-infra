@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Without arguments this prepares the local runtime contract networks. The
-# integration test passes the names of its own networks as arguments.
+readonly SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+# Without arguments this prepares the local runtime contract networks, named by
+# SAKALA_EDGE_NETWORK and SAKALA_RUNTIME_NETWORK. The integration test passes
+# the names of its own networks as arguments.
 if (($# > 0)); then
     networks=("$@")
 else
-    networks=(sakala-edge sakala-runtime)
+    # shellcheck source=scripts/local-names.sh
+    . "${SCRIPT_DIR}/local-names.sh"
+    networks=("${SAKALA_EDGE_NETWORK}" "${SAKALA_RUNTIME_NETWORK}")
 fi
 
 for network in "${networks[@]}"; do

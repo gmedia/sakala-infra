@@ -11,7 +11,7 @@ Konfigurasi tersebut:
 - membatasi Caddy Admin API pada `localhost:2019` di dalam container;
 - menonaktifkan automatic HTTPS;
 - menyediakan respons default pada HTTP port 80 di dalam container;
-- meneruskan `demo.run.sakala.localhost` ke `sakala-demo-static:8080`.
+- meneruskan `demo.run.sakala.localhost` ke service Compose `demo-static:8080`, sehingga route tetap jalan bila `SAKALA_DEMO_CONTAINER` diganti.
 
 Host mengekspos HTTP pada `${SAKALA_HTTP_PORT:-8080}` dan HTTPS pada `${SAKALA_HTTPS_PORT:-8443}`. HTTPS diekspos untuk kestabilan kontrak port, tetapi belum dipakai sebagai asumsi runtime.
 
