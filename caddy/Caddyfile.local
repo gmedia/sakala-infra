@@ -10,5 +10,6 @@ import /etc/caddy/sites/*.Caddyfile
 }
 
 demo.run.sakala.localhost:80 {
-	reverse_proxy sakala-demo-static:8080
+	# The Compose service name, so the route holds whatever SAKALA_DEMO_CONTAINER is.
+	reverse_proxy demo-static:8080
 }

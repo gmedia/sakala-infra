@@ -1,6 +1,6 @@
 COMPOSE := docker compose -f docker-compose.yml
 
-.PHONY: up down restart logs network doctor reset config test-runtime
+.PHONY: up down restart logs network doctor reset config test-runtime railpack-sandbox full-stack-env full-stack-agent-env
 
 up:
 	./scripts/up.sh
@@ -27,3 +27,12 @@ config:
 
 test-runtime:
 	./scripts/test-runtime-route.sh
+
+railpack-sandbox:
+	./scripts/full-stack-env.sh railpack-sandbox
+
+full-stack-env:
+	./scripts/full-stack-env.sh
+
+full-stack-agent-env:
+	./scripts/full-stack-env.sh agent

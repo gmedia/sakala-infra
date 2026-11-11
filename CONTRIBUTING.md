@@ -62,6 +62,7 @@ feat fix docs style refactor perf test build ci chore revert
 - [ ] `make config` berhasil.
 - [ ] `bash -n scripts/*.sh` berhasil jika script berubah.
 - [ ] Runtime diuji melalui `make up` dan `make doctor` jika perilaku container berubah.
+- [ ] `make test-runtime` berhasil jika routing, network, atau Compose berubah.
 - [ ] Dokumentasi diperbarui jika kontrak runtime berubah.
 
 ## Melaporkan Masalah
