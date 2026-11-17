@@ -21,6 +21,7 @@ Format dokumen mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ### Changed
 
+- Dokumentasi domain menyebut pola hosted `*.sakala.app` (staging `*.staging.sakala.app`) sebagai pengganti `*.run.sakala.dev`, sesuai ADR-016. Domain lokal `*.run.sakala.localhost` tidak berubah.
 - Nama container Caddy dan demo, network edge dan runtime, serta tag image sandbox Railpack bisa diganti lewat `.env` dengan default yang sama, supaya stack lokal bisa berjalan di samping stack lain tanpa override Compose.
 - `docs/FULL_STACK_LOCAL.md` menjelaskan cara membuat admin dengan `php artisan user:admin`, lama build pertama yang jujur, dan cara menguji backup lewat `make backup-test` di `sakala-deployment`.
 - Caddy Admin API dibatasi ke loopback container dan tidak dipublish ke host.

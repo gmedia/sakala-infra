@@ -186,7 +186,7 @@ Nilai ini dicatat supaya kamu tahu penyebabnya bila mengubah setup, atau mengisi
 
 | File dan key | Nilai | Mengapa |
 | --- | --- | --- |
-| API `SAKALA_PROJECT_DEFAULT_DOMAIN` | `run.sakala.localhost` | Default kode adalah `run.sakala.dev`, dan domain itu tidak mengarah ke mesinmu. |
+| API `SAKALA_PROJECT_DEFAULT_DOMAIN` | `run.sakala.localhost` | Default kode adalah domain hosted Sakala, dan domain itu tidak mengarah ke mesinmu. |
 | API `SAKALA_PROJECT_URL_SCHEME` | `http` | Default kode adalah `https`, sedangkan runtime lokal tidak memakai TLS. |
 | API `SAKALA_PROJECT_URL_PORT` | `8080` | Harus sama dengan `SAKALA_HTTP_PORT`. Kalau kosong, Console menampilkan URL tanpa port yang tidak bisa dibuka. |
 | API `BROADCAST_CONNECTION` | `reverb` | Nilai `log` membuat status dan log deployment tidak realtime. |

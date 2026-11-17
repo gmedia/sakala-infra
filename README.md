@@ -62,7 +62,7 @@ Pola domain aplikasi yang dibangun sejak awal:
 
 ```txt
 Local       : *.run.sakala.localhost
-Production  : *.run.sakala.dev
+Hosted      : *.sakala.app (staging: *.staging.sakala.app)
 ```
 
 Suffix `.localhost` dipakai agar percobaan lokal tidak membutuhkan konfigurasi DNS publik atau TLS production.

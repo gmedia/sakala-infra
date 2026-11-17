@@ -9,10 +9,10 @@ sakala.dev             Website publik
 sakala.dev/docs        Dokumentasi produk
 app.sakala.dev         Sakala Console
 api.sakala.dev         Sakala API/control plane
-*.run.sakala.dev       Generated application domains
+*.sakala.app           Generated application domains
 ```
 
-Domain production di atas merupakan arah desain. Repository ini belum mengelola DNS publik, wildcard certificate, atau TLS production.
+Aplikasi pengguna sengaja berada di `sakala.app`, domain yang terpisah dari `sakala.dev`, supaya pemblokiran terhadap satu aplikasi berbahaya tidak ikut mengenai website, Console, dan API (ADR-016). Staging memakai `*.staging.sakala.app`. DNS publik, wildcard certificate, dan TLS hosted dikelola di `sakala-deployment`, bukan di repository ini.
 
 ## Domain Lokal
 
