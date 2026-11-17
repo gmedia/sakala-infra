@@ -64,7 +64,7 @@ Caddy adalah reverse proxy lokal. Konfigurasi awal:
 ```txt
 demo.run.sakala.localhost    route demo lokal saat ini
 *.run.sakala.localhost       pola aplikasi lokal
-*.run.sakala.dev             arah pola aplikasi production
+*.sakala.app                 pola aplikasi hosted (production)
 ```
 
 Tidak ada asumsi TLS production dalam foundation ini. Port HTTPS disediakan agar kontrak port stabil saat eksperimen HTTPS lokal dibutuhkan kemudian.
@@ -88,4 +88,4 @@ Perubahan agent harus menjaga isolasi container, penyimpanan secret, idempotensi
 
 ## Production Direction
 
-Arah production dapat mempertahankan Caddy sebagai edge dan pola `*.run.sakala.dev`, tetapi konfigurasi TLS, persistence, hardening, rolling update, resource control, recovery, dan observability harus dirancang terpisah berdasarkan kebutuhan tervalidasi. Repository ini tidak menjanjikan kesiapan production.
+Layanan hosted memakai Caddy sebagai edge dan pola `*.sakala.app`, dikonfigurasi di `sakala-deployment`. Untuk instalasi lain, konfigurasi TLS, persistence, hardening, rolling update, resource control, recovery, dan observability harus dirancang terpisah berdasarkan kebutuhan tervalidasi. Repository ini tidak menjanjikan kesiapan production.

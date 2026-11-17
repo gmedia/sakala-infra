@@ -41,7 +41,7 @@ Repository ini tidak boleh memperkenalkan tanpa keputusan arsitektur baru:
 
 - Gunakan `.localhost` untuk domain lokal.
 - Gunakan pola aplikasi lokal `*.run.sakala.localhost`.
-- Pertahankan arah production `*.run.sakala.dev` hanya sebagai kontrak dokumentasi sampai deployment production dirancang.
+- Domain aplikasi hosted adalah `*.sakala.app` (staging `*.staging.sakala.app`). Repository ini hanya mencatatnya sebagai kontrak dokumentasi; konfigurasi hosted ada di `sakala-deployment`.
 - `sakala-edge` digunakan untuk edge-facing runtime.
 - `sakala-runtime` digunakan untuk koneksi proxy ke container aplikasi.
 - Caddy tidak boleh membutuhkan akses Docker socket.

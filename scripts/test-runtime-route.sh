@@ -306,7 +306,7 @@ check_route_validation() {
     local value
     local bad_hosts=(
         "evil.example.com"
-        "app.run.sakala.dev"
+        "app.sakala.app"
         "UPPER.run.sakala.localhost"
         "-dash.run.sakala.localhost"
         ".run.sakala.localhost"
